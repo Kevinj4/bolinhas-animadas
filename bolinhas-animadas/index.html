@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bolinhas Animadas - Muitas Bolinhas com Cores e Velocidade</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="conteiner">
+      <div class="bolhas">
+        <!-- 80 bolinhas spans serão inseridas via JavaScript -->
+        <script>
+          // Inserir 80 spans dinamicamente para as bolinhas
+          document.write(Array(80).fill("<span></span>").join(""));
+        </script>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const style = document.createElement("style");
+        let css = "";
+        for (let i = 1; i <= 80; i++) {
+          // Variações
+          const left = (Math.random() * 100).toFixed(2); // posição horizontal em %
+          const sizeOptions = [10, 14, 18, 22, 26, 30]; // tamanhos em px
+          const size =
+            sizeOptions[Math.floor(Math.random() * sizeOptions.length)];
+          const duration = (5 + Math.random() * 5).toFixed(2); // duração da animação (5s a 10s)
+          const delay = (Math.random() * -10).toFixed(2); // delay negativo para animação contínua (0 a -10s)
+          const hue = Math.floor(Math.random() * 360); // cor base (matiz HSL)
+
+          css += `
+        .bolhas span:nth-child(${i}) {
+          left: ${left}%;
+          width: ${size}px;
+          height: ${size}px;
+          background-color: hsl(${hue}, 100%, 60%);
+          animation-duration: ${duration}s;
+          animation-delay: ${delay}s;
+          box-shadow:
+            0 0 10px hsla(${hue}, 100%, 70%, 0.6),
+            0 0 30px hsla(${hue}, 100%, 70%, 0.3),
+            0 0 60px hsla(${hue}, 100%, 70%, 0.1);
+        }
+        `;
+        }
+        css += `
+      @keyframes subirCor {
+        0% {
+          transform: translateY(0);
+          opacity: 0.9;
+          filter: drop-shadow(0 0 6px currentColor);
+        }
+        50% {
+          opacity: 1;
+          filter: drop-shadow(0 0 12px currentColor);
+        }
+        100% {
+          transform: translateY(-110vh);
+          opacity: 0;
+          filter: drop-shadow(0 0 0px transparent);
+        }
+      }
+      `;
+        style.innerHTML = css;
+        document.head.appendChild(style);
+      })();
+    </script>
+  </body>
+</html>
